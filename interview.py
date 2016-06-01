@@ -14,6 +14,8 @@ def connect_mysql(hostname, user, password):
 
 
 def check_innodb(conn):
+    cur = conn.cursor()
+
 
 
     return
