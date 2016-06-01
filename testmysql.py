@@ -8,4 +8,7 @@ a = conn.cursor()
 query = str("show global status like '%writ%'")
 a.execute(query)
 result = a.fetchall()
-print result
+for i in result:
+    print i[0] + " = " + int(i[1])
+
+conn.close()
