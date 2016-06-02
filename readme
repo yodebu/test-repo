@@ -1,0 +1,61 @@
+Running the Project -
+
+
+
+ replace the credentials into the config.ini for your database server
+ and then run in terminal python <filename.py>
+
+
+
+
+
+TOOLS USED -
+
+MySQL Server mysql  Ver 14.14 Distrib 5.7.12, for Linux (x86_64) using  EditLine wrapper
+mysql> SHOW VARIABLES LIKE "%version%";
++-------------------------+-----------------+
+| Variable_name           | Value           |
++-------------------------+-----------------+
+| innodb_version          | 5.7.12          |
+| protocol_version        | 10              |
+| slave_type_conversions  |                 |
+| tls_version             | TLSv1,TLSv1.1   |
+| version                 | 5.7.12-0ubuntu1 |
+| version_comment         | (Ubuntu)        |
+| version_compile_machine | x86_64          |
+| version_compile_os      | Linux           |
++-------------------------+-----------------+
+
+Python2 Python 2.7.11+
+    MySQLdb api connector to connect to MySQL database from pip install
+
+Debugger - Pydevd debugger installed into PyCharm
+
+IDE -  Pycharm Community Edition 2016.1.4
+Build #PC-145.1504, built on May 25, 2016
+JRE: 1.8.0_76-release-b198 amd64
+JVM: OpenJDK 64-Bit Server VM by JetBrains s.r.o
+
+
+
+testing :
+
+  - I have debugged the code using manual inspection in command line terminal of python cli as well as mysql-cli client
+
+  - also I have created a basic test case which would automatically test the outputs of functions
+
+
+
+enhance the program -
+
+
+ - I have tested it on a PC with small memory and a minimal amount of data
+ while running a query on a large dataset on a production machine, we can do it by Query Optimisation
+
+  - also as because all the recent versions of MySQL databases are InnoDB by default, we need to find a
+   better constraint to check the number of data writes to the disk by MySQL, as because InnoDB databases
+
+
+
+
+
