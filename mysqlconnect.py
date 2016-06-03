@@ -7,6 +7,34 @@ import sys
 
 import MySQLdb as msql
 
+conn = False
+
+
+# GLobal variable to hold the connection handle
+
+def db_connect(connectstring):
+    '''
+    Returns a database connection/handle given the connectstring
+    This function saves the database connection, so if you
+    invoke this again, it gives you the same one, rather
+    than making a second connection.
+    Singleton pattern.
+    this fucntion returns the cursor of the connection
+    '''
+
+    global conn
+    if not conn:
+        try:
+            conn = msql.connect(**connectstring)
+            # so modifications take effect automatically
+            conn.autocommit(True)
+        except msql.Error, e:
+            print ("Couldn't connect to database. MySQL error %d: %s" %
+                   (e.args[0], e.args[1]))
+            sys.exit(3)
+    return conn.cursor()
+
+
 
 def config_read_file(filename='config.ini', section='mysql'):
     """ Read database configuration file and return a dictionary object
@@ -27,6 +55,7 @@ def config_read_file(filename='config.ini', section='mysql'):
     else:
         raise Exception('{0} not found in the {1} file'.format(section, filename))
 
+    print db
     return db
 
 
@@ -103,7 +132,7 @@ def find_total_write(cursor):
     cursor.execute(query)
     result_isam = cursor.fetchone()
     result_isam = int(result_isam[0])  # isam_write count
-    print result_isam
+    # print result_isam
 
     # mysql > select sum(count_write) from file_summary_by_instance where file_summary_by_instance.event_name like '%InnoDB%';
     # +------------------+
@@ -120,15 +149,17 @@ def find_total_write(cursor):
     cursor.execute(query2)
     result_innodb = cursor.fetchone()
     result_innodb = int(result_innodb[0])  # innodb_write count
-    print result_innodb
+    # print result_innodb
     total = result_isam + result_innodb
     print "total writes  = " + str(total)
     return total
 
 
+
 def main():
     '''
     this is the main function of the program
+
     :return:
     '''
 
@@ -137,12 +168,24 @@ def main():
     # we directly provide the db = performance_schema because
     # we are reading variables from the performance_schema database
 
-    credentials = config_read_file()
+    filename = 'config.ini'
+    section = 'mysql'
+
+    # Command line args are in sys.argv[1], sys.argv[2] ..
+    # sys.argv[0] is the script name itself and can be ignored
+
+    if len(sys.argv) is 2:
+        filename = sys.argv[1]
+    if len(sys.argv) is 3:
+        section = sys.argv[2]
+    # you may need not provide the system arguments and can directly use the included config.ini file which
+    # is included by default
+
+    credentials = config_read_file(filename, section)
 
     try:
-        con = msql.connect(**credentials)
-        cur = con.cursor()
 
+        cur = db_connect(credentials)
         res = check_innodb(cur)
         # the value returned to res will be a YES/NO/DEFAULT
         # DEFAULT means the plugin InnoDB is the default storage engine and enabled by default
@@ -165,13 +208,10 @@ def main():
     finally:
         # closing the connection after the work is done
 
-        if con:
-            con.close()
+        if conn:
+            conn.close()
 
 
 if __name__ == '__main__':
     main()
 
-
-def test_suite():
-    test_cases = ['default', 'yes', 'no', None]
