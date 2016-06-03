@@ -1,0 +1,73 @@
+Running the Project -
+
+
+
+ replace the credentials into the config.ini for your database server
+ and then run in terminal python <file_name.py> <config_file_name> <section_name>
+ example - python mysqlconnect.py config.ini mysql
+
+ the file config.ini and the mysql section is defaulted by the program, so if you consider using the file
+ config.ini you can directly edit the file for your configurations to the database and run the command =
+ python mysqlconnect.py
+
+
+
+
+
+TOOLS USED -
+
+MySQL Server mysql  Ver 14.14 Distrib 5.7.12, for Linux (x86_64) using  EditLine wrapper
+mysql> SHOW VARIABLES LIKE "%version%";
++-------------------------+-----------------+
+| Variable_name           | Value           |
++-------------------------+-----------------+
+| innodb_version          | 5.7.12          |
+| protocol_version        | 10              |
+| slave_type_conversions  |                 |
+| tls_version             | TLSv1,TLSv1.1   |
+| version                 | 5.7.12-0ubuntu1 |
+| version_comment         | (Ubuntu)        |
+| version_compile_machine | x86_64          |
+| version_compile_os      | Linux           |
++-------------------------+-----------------+
+
+Python2 Python 2.7.11+
+    MySQLdb api connector to connect to MySQL database from pip install
+
+Debugger - Pydevd debugger installed into PyCharm
+
+IDE -  Pycharm Community Edition 2016.1.4
+Build #PC-145.1504, built on May 25, 2016
+JRE: 1.8.0_76-release-b198 amd64
+JVM: OpenJDK 64-Bit Server VM by JetBrains s.r.o
+
+
+
+testing :
+
+  - I have debugged the code using manual inspection in command line terminal of python cli as well as mysql-cli client
+    as well as the bash terminal shell
+
+  - also I have created a basic test suite which would automatically test the outputs of functions using some basic test cases
+
+
+
+enhance the program -
+
+
+ - I have tested it on a PC with small memory and a minimal amount of data
+ while running a query on a large dataset on a production machine, this program may take a lot of time to run
+  - we can optimize it by Query Optimisation, and limiting the select fields, (which I have already done)
+
+  - also as because all the recent versions of MySQL databases are InnoDB by default, we need to find a
+   better constraint to check the number of data writes to the disk by MySQL, as because there is nothing specifically
+   defined that actually counts the no of times the disk was written my MySQL .
+
+   I assumed that total disk writes by MySQL is
+   = sum(disk writes by InnoDB) + sum(disk writes by MyISAM) type of databases
+
+ - better test cases can be developed
+
+
+
+
